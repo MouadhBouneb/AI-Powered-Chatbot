@@ -1,0 +1,65 @@
+# Dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Environment
+.env
+.env.local
+.env.*.local
+.env.test
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+dist
+build
+.cache
+
+# Testing
+coverage
+.nyc_output
+*.test.ts
+*.spec.ts
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# Documentation
+README.md
+*.md
+docs/
+
+# Scripts
+scripts/
+
+# SQLite (will be in volume)
+*.db
+*.db-journal
+prisma/*.db
+
+# Logs
+logs
+*.log
+
+# Temporary files
+tmp/
+temp/

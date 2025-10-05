@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  passwordHash      String
+  name              String?
+  language          String   @default("en")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  chats             Chat[]
+  summary           UserSummary?
+}
+
+model Chat {
+  id          String     @id @default(cuid())
+  user        User       @relation(fields: [userId], references: [id])
+  userId      String
+  title       String     @default("New Chat")
+  model       String
+  language    String
+  createdAt   DateTime   @default(now())
+  messages    Message[]
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  chatId    String
+  role      String   // 'user' | 'assistant'
+  content   String
+  createdAt DateTime @default(now())
+}
+
+model UserSummary {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique
+  language  String   // Deprecated - kept for backward compatibility
+  content   String   // Deprecated - kept for backward compatibility
+  contentEn String?  // English summary
+  contentAr String?  // Arabic summary
+  updatedAt DateTime @updatedAt
+}
+
+

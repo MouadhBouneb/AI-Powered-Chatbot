@@ -1,0 +1,11 @@
+{
+  "welcome": "Welcome to the Chatbot!",
+  "send_button": "Send",
+  "error_invalid_input": "Please enter a valid query.",
+  "auth_invalid": "Invalid email or password.",
+  "auth_required": "Authentication required.",
+  "language": "Language",
+  "model": "Model",
+  "chat_saved": "Chat saved successfully.",
+  "summary_updated": "Summary updated successfully."
+}
