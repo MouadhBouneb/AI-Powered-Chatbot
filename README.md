@@ -1,7 +1,7 @@
 # AI-Powered Chatbot Interface
-
 > **Full-Stack Developer Technical Test**  
 > Built with **Cursor AI** for enhanced productivity and code quality
+> **Full-Stack Developer Technical Test**
 
 A modern, full-stack AI chatbot application with multiple AI models and complete bilingual support (English/Arabic). Built with React, TypeScript, Node.js, and Docker.
 
@@ -234,25 +234,6 @@ docker exec ai-chatbot-ollama ollama pull llama3.2:3b
 
 ---
 
-## 🤖 AI-Assisted Development (Cursor AI)
-
-This project was developed using **Cursor AI**, which provided:
-
-**Benefits**:
-- **40% faster development** - AI code suggestions
-- **Clean architecture** - Automatic separation of concerns (controllers, services, repositories)
-- **Fewer bugs** - Comprehensive error handling from start
-- **TypeScript best practices** - Proper typing throughout
-
-**Key Contributions**:
-1. Created reusable React components (Button, Input, Card)
-2. Implemented repository pattern for data access
-3. Structured JSON i18n files and RTL support
-4. Optimized Docker builds and health checks
-5. Added comprehensive input validation with Zod
-
----
-
 ## 🔒 Security
 
 - **JWT Authentication** - Secure token-based auth
@@ -356,13 +337,13 @@ See `env.example` for detailed comments and instructions.
 
 ## 🙏 Acknowledgments
 
-- **Cursor AI** - AI-powered development
-- **Ollama** - Local AI serving
-- **React Query** - Data fetching
+- **Ollama** - Local AI model serving
+- **React Query** - Powerful data fetching
 - **Prisma** - TypeScript ORM
-- **i18next** - Internationalization
-- **Tailwind CSS** - Styling
+- **i18next** - Internationalization framework
+- **Tailwind CSS** - Utility-first CSS
+- **Redis** - High-performance caching
 
 ---
 
-**Built with ❤️ using Cursor AI and modern web technologies**
+**Built with ❤️ using modern web technologies**
