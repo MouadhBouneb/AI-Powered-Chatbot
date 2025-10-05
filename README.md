@@ -64,8 +64,17 @@ A modern, full-stack AI chatbot application with multiple AI models and complete
 ### Prerequisites
 - Docker Desktop ([Download](https://docs.docker.com/get-docker/))
 
-### Run the Application
+### Setup & Run
 
+**Step 1: Configure Environment (Optional)**
+```bash
+# The run script will auto-create .env from env.example
+# But you can customize it first if needed:
+cp env.example .env
+# Edit .env and change JWT_SECRET (recommended for production)
+```
+
+**Step 2: Run the Application**
 ```bash
 # Linux/Mac
 ./run.sh
@@ -320,15 +329,28 @@ This project was developed using **Cursor AI**, which provided:
 
 ## 📝 Configuration
 
-**Environment Variables** (create `.env` from `env.example`):
-```env
-JWT_SECRET=your-super-secret-jwt-key     # Change in production!
-OLLAMA_NUM_THREADS=4                      # CPU threads for AI
-CORS_ORIGIN=http://localhost:3000        # Frontend URL
-VITE_API_URL=http://localhost:4000/api   # Backend API
+All configuration is done via the `.env` file (auto-created from `env.example`).
+
+**Key Variables**:
+
+| Variable | Description | Default | Change Needed? |
+|----------|-------------|---------|----------------|
+| `JWT_SECRET` | Authentication secret key | Random string | ⚠️ **YES** for production |
+| `CORS_ORIGIN` | Frontend URL | `http://localhost:3000` | Only if different port |
+| `OLLAMA_BASE_URL` | Ollama AI server URL | `http://ollama:11434` | Only for external Ollama |
+| `OLLAMA_NUM_THREADS` | AI processing threads | `4` | Optional (4-16) |
+| `VITE_API_URL` | Backend API URL | `http://localhost:4000/api` | Only if different port |
+
+**Setup**:
+```bash
+# Auto-created by run.sh, or manually:
+cp env.example .env
+
+# Generate secure JWT_SECRET:
+openssl rand -base64 32
 ```
 
-**Note**: The `.env` file is auto-created by `run.sh` from `env.example`
+See `env.example` for detailed comments and instructions.
 
 ---
 
