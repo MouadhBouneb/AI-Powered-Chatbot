@@ -1,7 +1,6 @@
 # AI-Powered Chatbot Interface
 > **Full-Stack Developer Technical Test**  
 > Built with **Cursor AI** for enhanced productivity and code quality
-> **Full-Stack Developer Technical Test**
 
 A modern, full-stack AI chatbot application with multiple AI models and complete bilingual support (English/Arabic). Built with React, TypeScript, Node.js, and Docker.
 
