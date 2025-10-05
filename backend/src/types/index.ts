@@ -7,14 +7,7 @@ export type ChatMessage = {
 
 export type Language = "en" | "ar";
 
-export type ModelType =
-  | "llama"
-  | "mistral"
-  | "deepseek"
-  | "phi3"
-  | "gemma"
-  | "qwen"
-  | "tinyllama";
+export type ModelType = "llama" | "phi3" | "gemma" | "qwen" | "tinyllama";
 
 export interface AIProvider {
   generate(messages: ChatMessage[], language: Language): Promise<string>;

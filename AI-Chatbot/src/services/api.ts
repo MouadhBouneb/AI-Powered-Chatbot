@@ -35,11 +35,6 @@ export interface AuthResponse {
   user: User;
 }
 
-export interface ApiError {
-  error: string;
-  status?: number;
-}
-
 // Helper to get auth token
 const getToken = (): string | null => {
   return localStorage.getItem("auth_token");
@@ -69,9 +64,9 @@ class ApiError extends Error {
 // Helper for authenticated requests with better error handling
 const authFetch = async (url: string, options: RequestInit = {}) => {
   const token = getToken();
-  const headers: HeadersInit = {
+  const headers: Record<string, string> = {
     "Content-Type": "application/json",
-    ...(options.headers || {}),
+    ...(options.headers as Record<string, string>),
   };
 
   if (token) {
@@ -140,7 +135,7 @@ export const authApi = {
 // Chat API
 export const chatApi = {
   async createChat(
-    model: "llama" | "mistral" | "deepseek" | "phi3" | "gemma" | "qwen",
+    model: "llama" | "phi3" | "gemma" | "qwen" | "tinyllama",
     messages: { role: "user" | "assistant"; content: string }[],
     chatId?: string
   ): Promise<{ chat: Chat; message: string }> {
@@ -158,6 +153,85 @@ export const chatApi = {
     return authFetch(`/chat/${chatId}`, {
       method: "DELETE",
     });
+  },
+
+  /**
+   * Stream chat responses in real-time using Server-Sent Events
+   */
+  async *createChatStream(
+    model: "llama" | "phi3" | "gemma" | "qwen" | "tinyllama",
+    messages: { role: "user" | "assistant"; content: string }[],
+    chatId?: string
+  ): AsyncGenerator<
+    { chunk?: string; chat?: { id: string; title: string } },
+    void,
+    unknown
+  > {
+    const token = getToken();
+    const response = await fetch(`${API_URL}/chat/stream`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({ model, messages, chatId }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response
+        .json()
+        .catch(() => ({ error: "Request failed" }));
+      throw new ApiError(
+        errorData.error || `HTTP ${response.status}`,
+        response.status
+      );
+    }
+
+    if (!response.body) {
+      throw new ApiError("Response body is null");
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split("\n");
+
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            try {
+              const parsed = JSON.parse(line.slice(6));
+
+              if (parsed.error) {
+                throw new ApiError(parsed.error);
+              }
+
+              if (parsed.chunk) {
+                yield { chunk: parsed.chunk };
+              }
+
+              if (parsed.done) {
+                if (parsed.chat) {
+                  yield { chat: parsed.chat };
+                }
+                return;
+              }
+            } catch (e) {
+              if (e instanceof ApiError) throw e;
+              // Skip invalid JSON lines
+              continue;
+            }
+          }
+        }
+      }
+    } finally {
+      reader.releaseLock();
+    }
   },
 };
 
@@ -191,7 +265,7 @@ export const profileApi = {
 // Models API
 export const modelsApi = {
   async listModels(): Promise<{
-    models: any[];
+    models: Array<{ id: string; type: string; name: string }>;
     count: number;
     fallback?: boolean;
   }> {

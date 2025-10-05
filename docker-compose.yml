@@ -21,10 +21,20 @@ services:
     image: ollama/ollama:latest
     container_name: ai-chatbot-ollama
     restart: unless-stopped
+    # Uncomment below for GPU acceleration (requires NVIDIA GPU + nvidia-container-toolkit)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
     volumes:
       - ollama_data:/root/.ollama
     environment:
-      - OLLAMA_NUM_THREADS=${OLLAMA_NUM_THREADS:-4}
+      - OLLAMA_NUM_THREADS=${OLLAMA_NUM_THREADS:-8}
+      - OLLAMA_MAX_LOADED_MODELS=3
+      - OLLAMA_KEEP_ALIVE=5m
     networks:
       - ai-chatbot-network
     healthcheck:
@@ -43,14 +53,8 @@ services:
       target: production
     container_name: ai-chatbot-backend
     restart: unless-stopped
-    environment:
-      NODE_ENV: production
-      PORT: 4000
-      DATABASE_URL: file:/app/data/prisma/dev.db
-      REDIS_URL: redis://redis:6379
-      JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-key-change-in-production}
-      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://ollama:11434}
-      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3000}
+    env_file:
+      - ./backend/.env
     ports:
       - "4000:4000"
     depends_on:
@@ -74,10 +78,12 @@ services:
       context: ./AI-Chatbot
       dockerfile: Dockerfile
       target: production
+      args:
+        VITE_API_URL: http://localhost:4000/api
     container_name: ai-chatbot-frontend
     restart: unless-stopped
-    environment:
-      VITE_API_URL: ${VITE_API_URL:-http://localhost:4000/api}
+    env_file:
+      - ./AI-Chatbot/.env
     ports:
       - "3000:3000"
     depends_on:

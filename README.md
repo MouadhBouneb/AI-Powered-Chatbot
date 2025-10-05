@@ -8,13 +8,15 @@ A modern, full-stack AI chatbot application with multiple AI models and complete
 
 ## 🎯 Features
 
-- **6 AI Models**: LLaMA 3.2, Mistral, DeepSeek, Phi-3, Gemma, Qwen (all local via Ollama)
+- **5 AI Models**: LLaMA 3.2, Phi-3, Gemma, Qwen, TinyLlama (all local via Ollama)
+- **Real-time Streaming**: Server-Sent Events for instant AI responses
 - **Bilingual Support**: Complete English and Arabic with RTL layout
 - **JWT Authentication**: Secure user authentication and authorization
 - **Chat History**: Persistent storage with auto-generated titles
-- **AI Summaries**: Personalized summaries based on chat history (bilingual)
+- **AI Summaries**: Personalized bilingual summaries based on chat history
 - **Export Function**: Download chat history as text
 - **Responsive Design**: Mobile, tablet, and desktop optimized
+- **Clean Architecture**: Modular, reusable components and services
 
 ---
 
@@ -42,7 +44,7 @@ A modern, full-stack AI chatbot application with multiple AI models and complete
 **Tech Stack**:
 - **Frontend**: React 18, TypeScript, React Query, i18next, Tailwind CSS
 - **Backend**: Node.js, Express, Prisma ORM, JWT, Redis, Zod
-- **AI**: Ollama (6 local models, no API keys)
+- **AI**: Ollama (5 local models, no API keys) with Server-Sent Events streaming
 - **DevOps**: Docker Compose, Nginx, multi-stage builds, auto-migrations
 
 **Database** (SQLite + Prisma):
@@ -84,7 +86,7 @@ run.bat
 
 **What the script does**:
 1. Starts all 5 Docker containers
-2. Downloads AI models (LLaMA, Mistral, DeepSeek)
+2. Downloads AI models (LLaMA, Phi-3, Gemma, Qwen, TinyLlama)
 3. **Auto-creates database** (no manual migration needed)
 4. Checks service health
 5. Ready to use!
@@ -153,6 +155,7 @@ AI-Chatbot/
 
 #### Chat
 - **POST** `/chat` - Send message (requires JWT, body: model, messages, chatId?)
+- **POST** `/chat/stream` - Stream AI response (Server-Sent Events)
 - **GET** `/chat` - Get all user chats
 - **DELETE** `/chat/:id` - Delete chat
 
@@ -213,22 +216,25 @@ document.documentElement.dir = 'rtl';
 
 ## 🤖 AI Models
 
-All models run **locally via Ollama** - no external API keys needed.
+All models run **locally via Ollama** with **real-time streaming** - no external API keys needed.
 
 | Model | Size | Best For |
 |-------|------|----------|
 | **LLaMA 3.2:3b** | 2GB | Primary - excellent quality |
-| **Mistral 7B** | 4.1GB | Expert-level responses |
-| **DeepSeek R1:8B** | 4.7GB | Complex reasoning |
 | **Phi-3 Mini** | 2.2GB | Fast and efficient |
-| **Gemma 2B** | 1.4GB | Ultra lightweight |
+| **Gemma 2B** | 1.7GB | Ultra lightweight |
 | **Qwen 2.5 3B** | 1.9GB | Multilingual + Arabic |
+| **TinyLlama** | 637MB | Ultra fast responses |
 
 **Installation**: Auto-installed by `run.sh` (no manual steps needed)
 
 **Manual install** (if needed):
 ```bash
 docker exec ai-chatbot-ollama ollama pull llama3.2:3b
+docker exec ai-chatbot-ollama ollama pull phi3:mini
+docker exec ai-chatbot-ollama ollama pull gemma:2b
+docker exec ai-chatbot-ollama ollama pull qwen2.5:3b
+docker exec ai-chatbot-ollama ollama pull tinyllama:latest
 ```
 
 ---
@@ -269,26 +275,27 @@ docker exec ai-chatbot-ollama ollama pull llama3.2:3b
 
 1. **Sign Up** → Create account
 2. **Login** → Authenticate
-3. **English Chat** → Ask: "What is AI?"
+3. **English Chat** → Ask: "What is AI?" (see real-time streaming)
 4. **Switch to Arabic** → Ask: "ما هو الذكاء الاصطناعي؟"
 5. **Verify RTL** → Check right-to-left layout
-6. **Generate Summary** → Profile → Generate AI Summary
-7. **Export Chat** → Profile → Export Chat History
-8. **Delete Chat** → Chat Sidebar → Delete
+6. **Test Streaming** → Watch responses appear in real-time
+7. **Generate Summary** → Profile → Generate AI Summary
+8. **Export Chat** → Profile → Export Chat History
+9. **Delete Chat** → Chat Sidebar → Delete
 
 ---
 
 ## 📊 Project Statistics
 
-- **Lines of Code**: ~6,500
+- **Lines of Code**: ~7,000
 - **Languages**: TypeScript (90%), JavaScript, SQL, Shell
-- **React Components**: 15+
-- **API Endpoints**: 12 REST
-- **AI Models**: 6 local models (no API keys)
+- **React Components**: 20+ (modular, reusable)
+- **API Endpoints**: 13 REST + 1 SSE streaming
+- **AI Models**: 5 local models with real-time streaming
 - **Translations**: English + Arabic (100+ keys each)
 - **Docker Services**: 5 (Frontend, Backend, Nginx, Redis, Ollama)
 - **Database Tables**: 4
-- **Architecture**: Clean, no unnecessary files, auto-migrations
+- **Architecture**: Clean, modular, streaming-enabled, auto-migrations
 
 ---
 
@@ -296,14 +303,16 @@ docker exec ai-chatbot-ollama ollama pull llama3.2:3b
 
 **YouTube Link**: [Upload your 2-3 minute demo here]
 
-**Content**:
+**Required Content** (2-3 minutes):
 1. Code structure walkthrough
-2. Signup/Login
-3. Chat in English
-4. Chat in Arabic (RTL)
-5. Language switching
+2. Signup/Login flow
+3. Chat in English with AI
+4. Switch language to Arabic
+5. Chat in Arabic (RTL layout)
 6. AI summary generation
-7. Chat export
+7. Model selection & features
+
+📝 **See [VIDEO_SCRIPT.md](VIDEO_SCRIPT.md) for detailed recording guide**
 
 ---
 

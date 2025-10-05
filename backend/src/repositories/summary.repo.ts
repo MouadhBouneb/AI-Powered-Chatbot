@@ -5,21 +5,26 @@ export class SummaryRepository {
     return prisma.userSummary.findUnique({ where: { userId } });
   }
 
-  async upsert(userId: string, contentEn: string, contentAr: string) {
+  async upsert(
+    userId: string,
+    contentEn: string,
+    contentAr: string,
+    userLanguage: string = "en"
+  ) {
     return prisma.userSummary.upsert({
       where: { userId },
       update: {
         contentEn,
         contentAr,
-        content: contentEn, // Keep for backward compatibility
-        language: "en", // Default to en for backward compatibility
+        content: userLanguage === "ar" ? contentAr : contentEn, // Dynamic based on user language
+        language: userLanguage, // Dynamic based on user language
       },
       create: {
         userId,
         contentEn,
         contentAr,
-        content: contentEn, // Keep for backward compatibility
-        language: "en", // Default to en for backward compatibility
+        content: userLanguage === "ar" ? contentAr : contentEn, // Dynamic based on user language
+        language: userLanguage, // Dynamic based on user language
       },
     });
   }

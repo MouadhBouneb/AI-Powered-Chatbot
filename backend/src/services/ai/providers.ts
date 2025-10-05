@@ -55,10 +55,6 @@ export async function getAIProvider(kind: ModelType): Promise<AIProvider> {
     // Ollama models - primary AI providers
     case "llama":
       return new OllamaProvider(MODEL_NAMES.llama, "general");
-    case "mistral":
-      return new OllamaProvider(MODEL_NAMES.mistral, "expert");
-    case "deepseek":
-      return new OllamaProvider(MODEL_NAMES.deepseek, "expert");
     case "phi3":
       return new OllamaProvider(MODEL_NAMES.phi3, "general");
     case "gemma":

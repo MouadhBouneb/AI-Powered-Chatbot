@@ -93,7 +93,12 @@ export const generateSummary = async (req: Request, res: Response) => {
 
     // Generate both English and Arabic summaries
     const { en, ar } = await summarizeUser(req.user.id);
-    const saved = await summaries.upsert(req.user.id, en, ar);
+    const saved = await summaries.upsert(
+      req.user.id,
+      en,
+      ar,
+      req.user.language
+    );
 
     res.json({ summary: saved, message: t("summary_updated") });
   } catch (error) {

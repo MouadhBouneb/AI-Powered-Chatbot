@@ -4,12 +4,12 @@ export const OLLAMA_CONFIG = {
   BASE_URL: process.env.OLLAMA_BASE_URL || "http://localhost:11434",
   TIMEOUT: 300_000, // 5 minutes for model loading
   DEFAULT_TEMPERATURE: 0.7,
-  DEFAULT_MAX_TOKENS: 256,
+  DEFAULT_MAX_TOKENS: 256, // Reduced for faster responses
 } as const;
 
 export const CACHE_CONFIG = {
-  AI_RESPONSE_TTL: 3600, // 1 hour
-  CHAT_HISTORY_TTL: 300, // 5 minutes
+  AI_RESPONSE_TTL: 7200, // 2 hours - increased for better caching
+  CHAT_HISTORY_TTL: 600, // 10 minutes - increased for performance
 } as const;
 
 export const SYSTEM_PROMPTS = {
@@ -25,10 +25,8 @@ export const SYSTEM_PROMPTS = {
 
 export const MODEL_NAMES = {
   llama: "llama3.2:3b",
-  mistral: "mistral:7b",
-  deepseek: "deepseek-r1:8b",
   phi3: "phi3:mini",
   gemma: "gemma:2b",
   qwen: "qwen2.5:3b",
-  tinyllama: "tinyllama",
+  tinyllama: "tinyllama:latest",
 } as const;

@@ -45,37 +45,37 @@ exit /b 1
 REM Check if required models are installed
 echo 🤖 Installing optimal AI models for chatbot...
 
-REM Install Phi-3 Mini (3.8B) - Fast, good quality, perfect for chatbots
+REM Install Phi-3 Mini (3.8B)
 curl -s http://localhost:11434/api/tags | findstr "phi3:mini" >nul 2>&1
 if %errorlevel% equ 0 (
     echo ✅ phi3:mini is installed
 ) else (
-    echo 📥 Installing phi3:mini (3.8B) - Fast ^& High Quality...
+    echo 📥 Installing phi3:mini (3.8B)
     docker exec ai-chatbot-ollama ollama pull phi3:mini
 )
 
-REM Install Gemma 2B - Very lightweight, great for quick responses
+REM Install Gemma 2B
 curl -s http://localhost:11434/api/tags | findstr "gemma:2b" >nul 2>&1
 if %errorlevel% equ 0 (
     echo ✅ gemma:2b is installed
 ) else (
-    echo 📥 Installing gemma:2b (2B) - Ultra Lightweight...
+    echo 📥 Installing gemma:2b (2B)
     docker exec ai-chatbot-ollama ollama pull gemma:2b
 )
 
-REM Install Qwen 2.5 3B - Excellent multilingual support (English/Arabic)
+REM Install Qwen 2.5 3B
 curl -s http://localhost:11434/api/tags | findstr "qwen2.5:3b" >nul 2>&1
 if %errorlevel% equ 0 (
     echo ✅ qwen2.5:3b is installed
 ) else (
-    echo 📥 Installing qwen2.5:3b (3B) - Multilingual Excellence...
+    echo 📥 Installing qwen2.5:3b (3B)
     docker exec ai-chatbot-ollama ollama pull qwen2.5:3b
 )
 
-REM Optional: Install Llama 3.2 3B for even better conversation quality
+REM Optional: Install Llama 3.2 3B
 echo.
 echo 🎯 Optional: Install Llama 3.2 3B for premium conversation quality?
-echo    This model is larger (~2GB) but provides excellent chat responses.
+echo    This model is larger (2GB) but provides excellent chat responses.
 set /p install_llama="Install Llama 3.2 3B? (y/n): "
 
 if /i "%install_llama%"=="y" (
@@ -83,7 +83,7 @@ if /i "%install_llama%"=="y" (
     if %errorlevel% equ 0 (
         echo ✅ llama3.2:3b is already installed
     ) else (
-        echo 📥 Installing llama3.2:3b (3B) - Premium Conversation Quality...
+        echo 📥 Installing llama3.2:3b (3B)
         docker exec ai-chatbot-ollama ollama pull llama3.2:3b
     )
 )
@@ -96,11 +96,11 @@ echo 🔧 Backend:  http://localhost:4000
 echo 🤖 Ollama:   http://localhost:11434
 echo.
 echo 🤖 Available AI Models:
-echo   • phi3:mini    - Fast ^& High Quality (3.8B)
-echo   • gemma:2b     - Ultra Lightweight (2B)
-echo   • qwen2.5:3b   - Multilingual Excellence (3B)
+echo   • phi3:mini    (3.8B) Fast and High Quality
+echo   • gemma:2b     (2B) Ultra Lightweight
+echo   • qwen2.5:3b   (3B) Multilingual Support
 if /i "%install_llama%"=="y" (
-    echo   • llama3.2:3b  - Premium Conversation (3B)
+    echo   • llama3.2:3b  (3B) Premium Conversation
 )
 echo.
 echo 📋 Useful commands:

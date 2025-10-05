@@ -82,7 +82,13 @@ export const useChats = () => {
   return useQuery({
     queryKey: queryKeys.chats.list(),
     queryFn: () => chatApi.listChats(),
-    staleTime: 2 * 60 * 1000, // 2 minutes
+    staleTime: 0,
+    gcTime: 0, // Don't cache chats - always fetch fresh data
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
+    retry: 1, // Only retry once on failure
+    enabled: true, // Always enabled - let the API handle auth
   });
 };
 
@@ -95,7 +101,7 @@ export const useCreateChat = () => {
       messages,
       chatId,
     }: {
-      model: "llama" | "mistral" | "deepseek" | "phi3" | "gemma" | "qwen";
+      model: "llama" | "phi3" | "gemma" | "qwen" | "tinyllama";
       messages: { role: "user" | "assistant"; content: string }[];
       chatId?: string;
     }) => {
@@ -168,7 +174,7 @@ export const useUpdateProfile = () => {
     mutationFn: async (updates: { name?: string; language?: "en" | "ar" }) => {
       return await profileApi.updateProfile(updates);
     },
-    onSuccess: async (data, variables) => {
+    onSuccess: async (_data, variables) => {
       queryClient.setQueryData(queryKeys.auth.profile, (oldData: any) => {
         if (!oldData) return oldData;
 
@@ -209,3 +215,5 @@ export const useGenerateSummary = () => {
     },
   });
 };
+
+// NOTE: Streaming functionality moved to hooks/useChatStreaming.ts
