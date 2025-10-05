@@ -1,0 +1,67 @@
+# Dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Environment
+.env
+.env.local
+.env.*.local
+.env.production.local
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+dist
+build
+.cache
+.parcel-cache
+
+# Testing
+coverage
+.nyc_output
+src/**/*.test.ts
+src/**/*.test.tsx
+src/**/*.spec.ts
+src/**/*.spec.tsx
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# Documentation
+README.md
+*.md
+docs/
+
+# Vite
+.vite
+vite.config.ts.timestamp-*
+
+# Logs
+logs
+*.log
+
+# Temporary files
+tmp/
+temp/
+
+# Public folder (will be copied separately)
+public/*.md
